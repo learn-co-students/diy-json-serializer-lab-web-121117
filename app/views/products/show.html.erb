@@ -1,0 +1,44 @@
+<div id="product-name">
+  <%= @product.name %>
+</div>
+<br />
+
+<div id="product-price">
+  <%= @product.price %>
+</div>
+<br />
+
+<div id="product-inventory">
+  <%= @product.inventory %>
+</div>
+<br />
+
+<div id="product-description">
+  <%= @product.description %>
+</div>
+<br />
+
+<a href="#" data-id="<%= @product.id %>" id="next">Next Product</a>
+
+<script type="text/javascript">
+
+  function renderNextProduct(json){
+    let name = document.getElementById('product-name')
+    let price = document.getElementById('product-price')
+    let inventory = document.getElementById('product-inventory')
+    let description = document.getElementById('product-description')
+    let next = document.getElementById('next')
+    name.textContent = json.name
+    price.textContent = json.price
+    inventory.textContent = json.inventory
+    description.textContent = json.description
+    next.dataset.id = parseInt(next.dataset.id) + 1
+  }
+
+  document.getElementById('next').addEventListener('click', function(e){
+    let id = parseInt(document.getElementById('next').dataset.id)
+    fetch(`http://localhost:3000/products/${id + 1}/data`)
+    .then(res => res.json()).then(json => renderNextProduct(json))
+  })
+
+</script>
